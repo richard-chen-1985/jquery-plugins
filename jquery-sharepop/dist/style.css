@@ -1,0 +1,86 @@
+.btn-share {
+  width: 120px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  background: #f00;
+  color: #fff;
+  cursor: pointer; }
+
+.ui-sharepop-modal {
+  width: 420px;
+  overflow: hidden;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px; }
+  .ui-sharepop-modal .ui-sharepop-hd {
+    height: 35px;
+    background: #e7e7e7;
+    color: #333;
+    line-height: 35px;
+    font-size: 14px;
+    padding-left: 14px; }
+  .ui-sharepop-modal .ui-sharepop-cont {
+    padding: 10px;
+    overflow: hidden;
+    font-size: 0; }
+  .ui-sharepop-modal .ui-sharepop-close {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    font-size: 18px; }
+  .ui-sharepop-modal .share-btn {
+    display: inline-block;
+    width: 100px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+    overflow: hidden;
+    margin-bottom: 10px;
+    cursor: pointer; }
+    .ui-sharepop-modal .share-btn i {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background: url(img/share_icons_16.png) no-repeat;
+      vertical-align: middle;
+      margin-right: 4px; }
+    .ui-sharepop-modal .share-btn em {
+      font-style: normal;
+      display: inline-block;
+      vertical-align: middle; }
+    .ui-sharepop-modal .share-btn:hover em {
+      text-decoration: underline; }
+  .ui-sharepop-modal .share-btn-sinaweibo i {
+    background-position: 0 0; }
+  .ui-sharepop-modal .share-btn-qqweibo i {
+    background-position: 0 -16px; }
+  .ui-sharepop-modal .share-btn-renren i {
+    background-position: 0 -32px; }
+  .ui-sharepop-modal .share-btn-qzone i {
+    background-position: 0 -48px; }
+  .ui-sharepop-modal .share-btn-kaixin001 i {
+    background-position: 0 -64px; }
+  .ui-sharepop-modal .share-btn-douban i {
+    background-position: 0 -80px; }
+  .ui-sharepop-modal .share-btn-meilishuo i {
+    background-position: 0 -96px; }
+  .ui-sharepop-modal .share-btn-mogujie i {
+    background-position: 0 -112px; }
+  .ui-sharepop-modal .share-btn-facebook i {
+    background-position: 0 -128px; }
+  .ui-sharepop-modal .share-btn-twitter i {
+    background-position: 0 -144px; }
+  .ui-sharepop-modal .share-btn-googleplus i {
+    background-position: 0 -160px; }
+  .ui-sharepop-modal .share-btn-pinterest i {
+    background-position: 0 -176px; }
