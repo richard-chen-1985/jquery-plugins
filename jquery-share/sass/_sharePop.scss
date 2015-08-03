@@ -1,0 +1,45 @@
+.ui-sharepop {
+    position: fixed;
+    width: 520px;
+    top: 50%;
+    left: 50%;
+    background: #fff;
+    z-index: 100000;
+    overflow: hidden;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+    .ui-sharepop-hd {
+        height: 35px;
+        background: #e7e7e7;
+        color: #333;
+        line-height: 35px;
+        font-size: 14px;
+        padding-left: 10px;
+    }
+    .ui-sharepop-cont {
+        padding: 10px;
+    }
+    .ui-share-list {
+        width: 100%;
+        overflow: hidden;
+        li {
+            width:25%;
+            margin:5px 0;
+            float:left;
+        }
+    }
+    .ui-sharepop-close {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        top: 0;
+        right: 0;
+        cursor: pointer;
+        font-size: 18px;
+    }    
+}
