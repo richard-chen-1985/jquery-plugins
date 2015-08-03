@@ -30,7 +30,7 @@ gulp.task('sass', function () {
         .pipe(gulp.dest('css'))
         .pipe(reload({stream:true}))
         .pipe(rename({extname: '.min.css'}))
-        .pipe(cssmin())
+        .pipe(cssmin({compatibility: 'ie8'}))
         .pipe(gulp.dest('css'));
 });
 
