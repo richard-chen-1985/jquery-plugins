@@ -11,6 +11,8 @@
  *   $.share({
  *     elem: [jQuery Object] 要绑定的按钮
  *     type: [String] 分享框类型 [pop|tip]， pop为弹出框，tip为tooltip
+ *     onshow: [Function] 分享框显示时的回调
+ *     onclose: [Function] 分享框关闭时的回调
  *   });
  */
 ;(function($) {
@@ -86,7 +88,7 @@ var tplItem = '<li><a href="javascript:;" class="share-btn share-{{name}}" data-
 
 var isIE6 = /MSIE 6/.test(navigator.userAgent);
 
-// 默认配置
+// $.share.config 默认配置
 var defaultConfig = {
     // 分享内容
     content: '',
@@ -94,4 +96,11 @@ var defaultConfig = {
     url: '',
     // 缩略图片
     pic: ''
+};
+
+// $.share 默认参数
+var defaultSettings = {
+    elem: null,
+    onshow: function() {},
+    onclose: function() {}
 };

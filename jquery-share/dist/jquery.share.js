@@ -11,6 +11,8 @@
  *   $.share({
  *     elem: [jQuery Object] 要绑定的按钮
  *     type: [String] 分享框类型 [pop|tip]， pop为弹出框，tip为tooltip
+ *     onshow: [Function] 分享框显示时的回调
+ *     onclose: [Function] 分享框关闭时的回调
  *   });
  */
 ;(function($) {
@@ -86,7 +88,7 @@ var tplItem = '<li><a href="javascript:;" class="share-btn share-{{name}}" data-
 
 var isIE6 = /MSIE 6/.test(navigator.userAgent);
 
-// 默认配置
+// $.share.config 默认配置
 var defaultConfig = {
     // 分享内容
     content: '',
@@ -96,7 +98,13 @@ var defaultConfig = {
     pic: ''
 };
 
-function SharePop(elem) {
+// $.share 默认参数
+var defaultSettings = {
+    elem: null,
+    onshow: function() {},
+    onclose: function() {}
+};
+function SharePop(opts) {
     // 遮罩层
     this.mask = $('<div class="ui-share-mask">');
     // 弹出层
@@ -108,12 +116,13 @@ function SharePop(elem) {
         '<div class="ui-sharepop-close">×</div>' +
         '</div>');
 
-    // 接收触发元素
-    this.elem = elem;
+    // 接收默认参数
+    this.opts = $.extend({}, defaultSettings, opts);
     
     // 初始化
     this.init();
 }
+
 SharePop.prototype = {
     constructor: SharePop,
     init: function() {
@@ -139,7 +148,7 @@ SharePop.prototype = {
             modal = this.modal;
 
         // 给触发元素绑定click事件
-        this.pushElem(this.elem);
+        this.pushElem(this.opts.elem, this.opts);
         
         // 给各分享子项添加click事件
         modal.find('.share-btn').bind('click', function() {
@@ -166,8 +175,9 @@ SharePop.prototype = {
             }
         });
     },
-    pushElem: function(elem) {
+    pushElem: function(elem, opts) {
         var self = this;
+        $.extend(this.opts, opts);
         elem.bind('click', function() {
             self.show();
         });
@@ -176,6 +186,7 @@ SharePop.prototype = {
         this.mask.fadeIn(200);
         this.modal.fadeIn(200);
         this.opened = true;
+        this.opts.onshow.call(this);
     },
     loadStyle: function() {
         var modal = this.modal,
@@ -188,11 +199,6 @@ SharePop.prototype = {
             modalWidth = modal.outerWidth(),
             modalHeight = modal.outerHeight();
 
-        modal.css({
-            'top': (winHeight - modalHeight) / 2,
-            'left': (winWidth - modalWidth) / 2
-        });
-
         if(isIE6) {
             mask.css({
                 'position': 'absolute',
@@ -200,17 +206,24 @@ SharePop.prototype = {
                 'height': contHeight
             });
             modal.css({
-                'position': 'absolute'
+                'position': 'absolute',
+                'left': (winWidth - modalWidth) / 2
             }).get(0).style.setExpression('top', 'documentElement.scrollTop+(documentElement.clientHeight-this.clientHeight)/2');
+        } else {
+            modal.css({
+                'top': (winHeight - modalHeight) / 2,
+                'left': (winWidth - modalWidth) / 2
+            });
         }
     },
     close: function() {
         this.mask.hide();
         this.modal.hide();
         this.opened = false;
+        this.opts.onclose.call(this);
     }
 };
-function ShareTip(elem) {
+function ShareTip(opts) {
     // tip层
     this.tip = $('<div class="ui-sharetip">' +
         '<div class="ui-sharetip-hd">分享到：</div>' +
@@ -218,8 +231,8 @@ function ShareTip(elem) {
         '<div class="ui-sharetip-arrow"><span class="arrow1"></span><span class="arrow2"></span></div>' +
         '</div>');
 
-    // 接收触发元素
-    this.elem = elem;
+    // 接收默认参数
+    this.opts = $.extend({}, defaultSettings, opts);
 	
 	// 隐藏tip层定时器
 	this.timer = null;
@@ -254,10 +267,10 @@ ShareTip.prototype = {
             tip = this.tip;
 
         // 给触发元素绑定hover事件
-        this.pushElem(this.elem, true);
+        this.pushElem(this.opts.elem, this.opts, true);
 		
 		// 给tip层添加hover事件
-		this.pushElem(tip, false);
+		this.pushElem(tip, this.opts, false);
         
         // 给各分享子项添加click事件
         tip.find('.share-btn').bind('click', function() {
@@ -276,9 +289,12 @@ ShareTip.prototype = {
             }
         });
     },
-    // 给指定元素添加hover事件, bStyle: 是否在hover时重新计算tip层位置，主要用于tip本身hover时避免重复计算样式
-    pushElem: function(elem, bStyle) {
+    // 给指定元素添加hover事件并覆盖opts, bStyle: 是否在hover时重新计算tip层位置，主要用于tip本身hover时避免重复计算样式
+    pushElem: function(elem, opts, bStyle) {
         var self = this;
+        if(bStyle) {
+            $.extend(this.opts, opts);
+        }
         elem.hover(function() {
 			clearTimeout(self.timer);
             self.show($(this), bStyle);
@@ -294,6 +310,7 @@ ShareTip.prototype = {
             this.currentTarget = elem;
         }
         this.tip.show();
+        this.opts.onshow.call(this);
     },
     loadStyle: function(elem) {
         var elemOffset = elem.offset(),
@@ -307,34 +324,33 @@ ShareTip.prototype = {
     close: function() {
         this.tip.hide();
         this.currentTarget = null;
+        this.opts.onclose.call(this);
     }
 };
 var Share = {
     sharePop: null,
-    createSharePop: function(elem) {
+    createSharePop: function(opts) {
         if(this.sharePop === null) {
-            this.sharePop = new SharePop(elem);
+            this.sharePop = new SharePop(opts);
         } else {
-            this.sharePop.pushElem(elem);
+            this.sharePop.pushElem(opts.elem, opts);
         }
-        return this.sharePop;
     },
     shareTip: null,
-    createShareTip: function(elem) {
+    createShareTip: function(opts) {
         if(this.shareTip === null) {
-            this.shareTip = new ShareTip(elem);
+            this.shareTip = new ShareTip(opts);
         } else {
-            this.shareTip.pushElem(elem, true);
+            this.shareTip.pushElem(opts.elem, opts, true);
         }
-        return this.shareTip;
     }
 }
 
 $.share = function(opts) {
     if(opts.type === 'pop') {
-        Share.createSharePop(opts.elem);
+        Share.createSharePop(opts);
     } else if(opts.type === 'tip') {
-        Share.createShareTip(opts.elem);
+        Share.createShareTip(opts);
     }
 };
 

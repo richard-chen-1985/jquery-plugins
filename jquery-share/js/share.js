@@ -1,29 +1,27 @@
 var Share = {
     sharePop: null,
-    createSharePop: function(elem) {
+    createSharePop: function(opts) {
         if(this.sharePop === null) {
-            this.sharePop = new SharePop(elem);
+            this.sharePop = new SharePop(opts);
         } else {
-            this.sharePop.pushElem(elem);
+            this.sharePop.pushElem(opts.elem, opts);
         }
-        return this.sharePop;
     },
     shareTip: null,
-    createShareTip: function(elem) {
+    createShareTip: function(opts) {
         if(this.shareTip === null) {
-            this.shareTip = new ShareTip(elem);
+            this.shareTip = new ShareTip(opts);
         } else {
-            this.shareTip.pushElem(elem, true);
+            this.shareTip.pushElem(opts.elem, opts, true);
         }
-        return this.shareTip;
     }
 }
 
 $.share = function(opts) {
     if(opts.type === 'pop') {
-        Share.createSharePop(opts.elem);
+        Share.createSharePop(opts);
     } else if(opts.type === 'tip') {
-        Share.createShareTip(opts.elem);
+        Share.createShareTip(opts);
     }
 };
 

@@ -1,4 +1,4 @@
-function SharePop(elem) {
+function SharePop(opts) {
     // 遮罩层
     this.mask = $('<div class="ui-share-mask">');
     // 弹出层
@@ -10,12 +10,13 @@ function SharePop(elem) {
         '<div class="ui-sharepop-close">×</div>' +
         '</div>');
 
-    // 接收触发元素
-    this.elem = elem;
+    // 接收默认参数
+    this.opts = $.extend({}, defaultSettings, opts);
     
     // 初始化
     this.init();
 }
+
 SharePop.prototype = {
     constructor: SharePop,
     init: function() {
@@ -41,7 +42,7 @@ SharePop.prototype = {
             modal = this.modal;
 
         // 给触发元素绑定click事件
-        this.pushElem(this.elem);
+        this.pushElem(this.opts.elem, this.opts);
         
         // 给各分享子项添加click事件
         modal.find('.share-btn').bind('click', function() {
@@ -68,8 +69,9 @@ SharePop.prototype = {
             }
         });
     },
-    pushElem: function(elem) {
+    pushElem: function(elem, opts) {
         var self = this;
+        $.extend(this.opts, opts);
         elem.bind('click', function() {
             self.show();
         });
@@ -78,6 +80,7 @@ SharePop.prototype = {
         this.mask.fadeIn(200);
         this.modal.fadeIn(200);
         this.opened = true;
+        this.opts.onshow.call(this);
     },
     loadStyle: function() {
         var modal = this.modal,
@@ -90,11 +93,6 @@ SharePop.prototype = {
             modalWidth = modal.outerWidth(),
             modalHeight = modal.outerHeight();
 
-        modal.css({
-            'top': (winHeight - modalHeight) / 2,
-            'left': (winWidth - modalWidth) / 2
-        });
-
         if(isIE6) {
             mask.css({
                 'position': 'absolute',
@@ -102,13 +100,20 @@ SharePop.prototype = {
                 'height': contHeight
             });
             modal.css({
-                'position': 'absolute'
+                'position': 'absolute',
+                'left': (winWidth - modalWidth) / 2
             }).get(0).style.setExpression('top', 'documentElement.scrollTop+(documentElement.clientHeight-this.clientHeight)/2');
+        } else {
+            modal.css({
+                'top': (winHeight - modalHeight) / 2,
+                'left': (winWidth - modalWidth) / 2
+            });
         }
     },
     close: function() {
         this.mask.hide();
         this.modal.hide();
         this.opened = false;
+        this.opts.onclose.call(this);
     }
 };

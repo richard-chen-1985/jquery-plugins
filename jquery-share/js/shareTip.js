@@ -1,4 +1,4 @@
-function ShareTip(elem) {
+function ShareTip(opts) {
     // tip层
     this.tip = $('<div class="ui-sharetip">' +
         '<div class="ui-sharetip-hd">分享到：</div>' +
@@ -6,8 +6,8 @@ function ShareTip(elem) {
         '<div class="ui-sharetip-arrow"><span class="arrow1"></span><span class="arrow2"></span></div>' +
         '</div>');
 
-    // 接收触发元素
-    this.elem = elem;
+    // 接收默认参数
+    this.opts = $.extend({}, defaultSettings, opts);
 	
 	// 隐藏tip层定时器
 	this.timer = null;
@@ -42,10 +42,10 @@ ShareTip.prototype = {
             tip = this.tip;
 
         // 给触发元素绑定hover事件
-        this.pushElem(this.elem, true);
+        this.pushElem(this.opts.elem, this.opts, true);
 		
 		// 给tip层添加hover事件
-		this.pushElem(tip, false);
+		this.pushElem(tip, this.opts, false);
         
         // 给各分享子项添加click事件
         tip.find('.share-btn').bind('click', function() {
@@ -64,9 +64,12 @@ ShareTip.prototype = {
             }
         });
     },
-    // 给指定元素添加hover事件, bStyle: 是否在hover时重新计算tip层位置，主要用于tip本身hover时避免重复计算样式
-    pushElem: function(elem, bStyle) {
+    // 给指定元素添加hover事件并覆盖opts, bStyle: 是否在hover时重新计算tip层位置，主要用于tip本身hover时避免重复计算样式
+    pushElem: function(elem, opts, bStyle) {
         var self = this;
+        if(bStyle) {
+            $.extend(this.opts, opts);
+        }
         elem.hover(function() {
 			clearTimeout(self.timer);
             self.show($(this), bStyle);
@@ -82,6 +85,7 @@ ShareTip.prototype = {
             this.currentTarget = elem;
         }
         this.tip.show();
+        this.opts.onshow.call(this);
     },
     loadStyle: function(elem) {
         var elemOffset = elem.offset(),
@@ -95,5 +99,6 @@ ShareTip.prototype = {
     close: function() {
         this.tip.hide();
         this.currentTarget = null;
+        this.opts.onclose.call(this);
     }
 };
