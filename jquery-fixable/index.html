@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		body {
+			height: 2000px;
+		}
+		.fixable {
+			width: 150px;
+			height: 40px;
+			background: #f00;
+		}
+	</style>
+</head>
+<body>
+	<div class="fixable fixable-1"></div>
+	<div class="fixable fixable-2"></div>
+	<div class="fixable fixable-3"></div>
+	<div class="fixable fixable-4"></div>
+	<div class="fixable fixable-5"></div>
+	<div class="fixable fixable-6"></div>
+	
+	<script src="../lib/jquery-1.11.3.js"></script>
+	<script src="js/jquery.fixable.js"></script>
+	<script>
+		$('.fixable-1').fixable({
+			x: 'left',
+			y: 'top'
+		});
+		$('.fixable-2').fixable({
+			x: 'center',
+			y: 'top'
+		});
+		$('.fixable-3').fixable({
+			x: 'right',
+			y: 'top'
+		});
+		$('.fixable-4').fixable({
+			x: 'left',
+			y: 'center'
+		});
+		$('.fixable-5').fixable({
+			x: 'center',
+			y: 'bottom'
+		});
+		$('.fixable-6').fixable({
+			x: 'right',
+			y: 'center'
+		});
+	</script>
+</body>
+</html>
