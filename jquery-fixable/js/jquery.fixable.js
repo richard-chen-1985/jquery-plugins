@@ -45,8 +45,8 @@
                 elem = this.elem,
                 elemWidth = elem.outerWidth(),
                 elemHeight = elem.outerHeight(),
-                pageWidth = document.documentElement.clientWidth || document.body.clientWidth,
-                pageHeight = document.documentElement.clientHeight || document.body.clientHeight,
+                viewWidth = $(window).width();
+                viewHeight = $(window).height();
                 css = {
                     zIndex: opts.zIndex
                 };
@@ -60,7 +60,7 @@
                     css.marginLeft = -(elemWidth / 2) + opts.xValue;
                     break;
                 case 'right':
-                    css.left = pageWidth - elemWidth + opts.xValue;
+                    css.left = viewWidth - elemWidth + opts.xValue;
                     break;
             };
             switch(opts.y) {
@@ -73,7 +73,7 @@
                     break;
                 case 'center':
                     if(isIE6) {
-                        elem[0].style.setExpression('top', 'eval((document.documentElement||document.body).scrollTop + ' + (pageHeight / 2) + ') + "px"');
+                        elem[0].style.setExpression('top', 'eval((document.documentElement||document.body).scrollTop + ' + (viewHeight / 2) + ') + "px"');
                     } else {
                         css.top = '50%';
                     }
@@ -81,9 +81,9 @@
                     break;
                 case 'bottom':
                     if(isIE6) {
-                        elem[0].style.setExpression('top', 'eval((document.documentElement||document.body).scrollTop + ' + (pageHeight - elemHeight) + ') + "px"');
+                        elem[0].style.setExpression('top', 'eval((document.documentElement||document.body).scrollTop + ' + (viewHeight - elemHeight) + ') + "px"');
                     } else {
-                        css.top = pageHeight - elemHeight + opts.yValue;
+                        css.top = viewHeight - elemHeight + opts.yValue;
                     }
             }
             css.position = isIE6 ? 'absolute' : 'fixed';
