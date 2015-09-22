@@ -1,0 +1,20 @@
+#btn {
+    width:40px;
+    height:40px;
+    position:fixed;
+    _position:absolute;
+    _top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-70));
+    left:50%;
+    display:none;
+    margin-left:610px;
+    bottom:30px;
+    _bottom:auto;
+    background:url(top_bg.png) no-repeat left top;
+}
+#btn:hover {
+    background:url(top_bg.png) no-repeat 0 -39px;
+}
+.box {
+    width:1190px;
+    margin:0 auto;
+}
