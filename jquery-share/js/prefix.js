@@ -3,6 +3,7 @@
  * e.g.
  *   // 配置分享参数
  *   $.share.config({
+ *     title: [String] 标题
  *     content: [String] 要分享的内容
  *     url: [String] 要分享的url地址
  *     pic: [String] 缩略图片
@@ -18,6 +19,7 @@
 ;(function($) {
 
 // 各社交网站分享api
+// {{title}}: 标题
 // {{content}}: 描述内容
 // {{url}}: 要分享的url地址
 // {{pic}}: 分享的图标
@@ -34,12 +36,12 @@ var api = {
     },
     // 人人网
     renren : {
-        url: 'http://widget.renren.com/dialog/share?resourceUrl={{url}}&title={{content}}&images={{pic}}&description={{content}}',
+        url: 'http://widget.renren.com/dialog/share?resourceUrl={{url}}&title={{title}}&images={{pic}}&description={{content}}',
         text: '人人网'
     },
     // QQ空间
     qzone : {
-        url: 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url={{url}}&title={{content}}&pics={{pic}}&summary={{content}}',
+        url: 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url={{url}}&title={{title}}&pics={{pic}}&summary={{content}}',
         text: 'QQ空间'
     },
     // 开心网

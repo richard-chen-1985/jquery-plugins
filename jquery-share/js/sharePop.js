@@ -23,7 +23,7 @@ SharePop.prototype = {
         // 生成各分享子项
         var tmpHtml = [];
         for(var item in api) {
-            tmpHtml.push(tplItem.replace(/{{name}}/g, item).replace(/{{text}}/, api[item].text));
+            tmpHtml.push(tplItem.replace(/\{\{name\}\}/g, item).replace(/\{\{text\}\}/, api[item].text));
         }
         this.modal.find('.ui-share-list').append(tmpHtml.join(''));
         
@@ -47,9 +47,10 @@ SharePop.prototype = {
         // 给各分享子项添加click事件
         modal.find('.share-btn').bind('click', function() {
             var tmpUrl = api[$(this).attr('data-name')].url;
-            tmpUrl = tmpUrl.replace(/{{content}}/g, defaultConfig.content);
-            tmpUrl = tmpUrl.replace(/{{url}}/g, defaultConfig.url);
-            tmpUrl = tmpUrl.replace(/{{pic}}/g, defaultConfig.pic);
+            tmpUrl = tmpUrl.replace(/\{\{title\}\}/g, defaultConfig.title);
+            tmpUrl = tmpUrl.replace(/\{\{content\}\}/g, defaultConfig.content);
+            tmpUrl = tmpUrl.replace(/\{\{url\}\}/g, defaultConfig.url);
+            tmpUrl = tmpUrl.replace(/\{\{pic\}\}/g, defaultConfig.pic);
             window.open(tmpUrl, 'newwindow', 'width=1000,height=800,top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
             return false;
         });
