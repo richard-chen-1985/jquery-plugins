@@ -66,11 +66,11 @@ var api = {
     },
     // facebook
     facebook : {
-        url: 'http://www.facebook.com/share.php?src=360buy&u={{url}}',
+        url: 'http://www.facebook.com/share.php?u={{url}}&t={{content}}&pic={{pic}}',
         text: 'facebook'
     },
     twitter : {
-        url: 'http://twitter.com/intent/tweet?text={{content}}&url={{url}}',
+        url: 'http://twitter.com/intent/tweet?text={{content}}{{url}}&pic={{pic}}',
         text: 'twitter'
     },
     // google+
